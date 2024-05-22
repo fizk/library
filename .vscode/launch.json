@@ -1,0 +1,20 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for XDebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9003,
+            // server -> local
+            "pathMappings": {
+                "/var/app/src": "${workspaceFolder}/src",
+                "/var/app/test": "${workspaceFolder}/test",
+                "/var/app/vendor": "${workspaceFolder}/vendor"
+            }
+        },
+    ]
+}

@@ -7,6 +7,20 @@ RUN apt-get update; \
 RUN curl -sS https://getcomposer.org/installer \
     | php -- --install-dir=/usr/local/bin --filename=composer --version=2.6.6
 
+    
+RUN pecl install xdebug-3.3.1; \
+    docker-php-ext-enable xdebug; \
+    echo "error_reporting = E_ALL\n\
+display_startup_errors = On\n\
+display_errors = On\n\
+xdebug.mode = debug\n\
+xdebug.start_with_request=yes\n\
+xdebug.client_host=host.docker.internal\n\
+xdebug.client_port=9003\n\
+xdebug.idekey=myKey\n\
+xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini;
+
+
 WORKDIR /var/app
 
 COPY ./src /var/app/src

@@ -19,7 +19,7 @@ catch (Throwable $throwable) {
 ```
 
 ### ClientErrorResponse
-Used to return a HTTP response when a [Form](https://github.com/is-tonlist/it-resource/blob/main/library/Form/Form.php) is invalid. It takes as its argument the `Form` and converts the Form's messages into a JSON object to be sent back to the client.
+Used to return a HTTP response when a [Form](https://github.com/fizk/library/blob/main/src/Form/Form.php) is invalid. It takes as its argument the `Form` and converts the Form's messages into a JSON object to be sent back to the client.
 
 By default it will issue a **400 Bad Request** status code, but that can be changed by passing in a different integer code as its second argument.
 
@@ -36,3 +36,7 @@ if ($form->isValid()) {
     return new ClientErrorResponse($form)
 }
 ```
+
+
+### EmptyResponse
+Used when to respond to a request that doesn't need to contain any data. By default it will issue a **204 No Content** response code
