@@ -9,14 +9,16 @@ class ServerFilterAggregate implements FilterServerRequestInterface
 {
     public function __construct(/* FilterServerRequestInterface[] */ private $filters)
     {
-        
     }
 
     public function __invoke(ServerRequestInterface $request): ServerRequestInterface
     {
-        return array_reduce($this->filters, fn (
-            ServerRequestInterface $request, 
-            FilterServerRequestInterface $filter) => $filter($request)
-        , $request);
+        return array_reduce(
+            $this->filters,
+            fn (
+            ServerRequestInterface $request,
+            FilterServerRequestInterface $filter) => $filter($request),
+            $request
+        );
     }
 }
