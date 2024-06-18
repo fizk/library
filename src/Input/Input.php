@@ -13,7 +13,7 @@ class Input implements InputInterface
     private array $messages = [];
     private ?bool $valid = null;
 
-    public function __construct(private string $name)
+    public function __construct(private string $name, private $allowEmpty = false)
     {
     }
 
@@ -39,6 +39,11 @@ class Input implements InputInterface
         $this->value = array_reduce($this->filters, function (mixed $previous, FilterInterface $current) {
             return $current->filter($previous);
         }, $input);
+
+        // If empty is allowed
+        if ($this->value === null && $this->allowEmpty === true) {
+            return $this->valid = true;
+        }
 
         // Run all validators
         $validationResults = array_map(function (ValidatorInterface $validator) {

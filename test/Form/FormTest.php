@@ -225,4 +225,171 @@ class FormTest extends TestCase
         $this->assertTrue($valid);
         $this->assertEquals($expected, $actual);
     }
+
+    public function testSetEmptyInContructorAndValidateEmptyString()
+    {
+        // GIVEN
+        $data = [
+            'name' => 'Name Nameson',
+            'email' => '',
+        ];
+        $form = new class ($data) extends Form
+        {
+            public function getValidationConfig(): array
+            {
+                return [
+                    (new Input('name'))
+                        ->attachFilter(new UpperCaseWords())
+                        ->attachFilter(new ToNull())
+                        ->attachValidator(new NotEmpty()),
+
+                    (new Input('email', true))
+                        ->attachFilter(new ToNull())
+                        ->attachValidator(new EmailAddress()),
+                ];
+            }
+            public function getModel(): object
+            {
+                return (object) $this->getInputChain()->getValues();
+            }
+        };
+
+        // WHEN
+        $valid = $form->isValid();
+
+        $expected = (object) [
+            'name' => 'Name Nameson',
+            'email' => null
+        ];
+        $actual = $form->getModel();
+
+        // THEN
+        $this->assertTrue($valid);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testSetEmptyInContructorAndValidateMissingProperty()
+    {
+        // GIVEN
+        $data = [
+            'name' => 'Name Nameson',
+        ];
+        $form = new class ($data) extends Form
+        {
+            public function getValidationConfig(): array
+            {
+                return [
+                    (new Input('name'))
+                        ->attachFilter(new UpperCaseWords())
+                        ->attachFilter(new ToNull())
+                        ->attachValidator(new NotEmpty()),
+
+                    (new Input('email', true))
+                        ->attachFilter(new ToNull())
+                        ->attachValidator(new EmailAddress()),
+                ];
+            }
+            public function getModel(): object
+            {
+                return (object) $this->getInputChain()->getValues();
+            }
+        };
+
+        // WHEN
+        $valid = $form->isValid();
+
+        $expected = (object) [
+            'name' => 'Name Nameson',
+            'email' => null
+        ];
+        $actual = $form->getModel();
+
+        // THEN
+        $this->assertTrue($valid);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testSetEmptyInContructorButValueProvided()
+    {
+        // GIVEN
+        $data = [
+            'name' => 'Name Nameson',
+            'email' => 'email@domain.com'
+        ];
+        $form = new class ($data) extends Form
+        {
+            public function getValidationConfig(): array
+            {
+                return [
+                    (new Input('name'))
+                        ->attachFilter(new UpperCaseWords())
+                        ->attachFilter(new ToNull())
+                        ->attachValidator(new NotEmpty()),
+
+                    (new Input('email', true))
+                        ->attachFilter(new ToNull())
+                        ->attachValidator(new EmailAddress()),
+                ];
+            }
+            public function getModel(): object
+            {
+                return (object) $this->getInputChain()->getValues();
+            }
+        };
+
+        // WHEN
+        $valid = $form->isValid();
+
+        $expected = (object) [
+            'name' => 'Name Nameson',
+            'email' => 'email@domain.com'
+        ];
+        $actual = $form->getModel();
+
+        // THEN
+        $this->assertTrue($valid);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testSetEmptyInContructorButValueProvidedAndItIsIvalid()
+    {
+        // GIVEN
+        $data = [
+            'name' => 'Name Nameson',
+            'email' => 'email'
+        ];
+        $form = new class ($data) extends Form
+        {
+            public function getValidationConfig(): array
+            {
+                return [
+                    (new Input('name'))
+                        ->attachFilter(new UpperCaseWords())
+                        ->attachFilter(new ToNull())
+                        ->attachValidator(new NotEmpty()),
+
+                    (new Input('email', true))
+                        ->attachFilter(new ToNull())
+                        ->attachValidator(new EmailAddress()),
+                ];
+            }
+            public function getModel(): object
+            {
+                return (object) $this->getInputChain()->getValues();
+            }
+        };
+
+        // WHEN
+        $valid = $form->isValid();
+
+        $expected = (object) [
+            'name' => 'Name Nameson',
+            'email' => 'email'
+        ];
+        $actual = $form->getModel();
+
+        // THEN
+        $this->assertFalse($valid);
+        $this->assertEquals($expected, $actual);
+    }
 }
