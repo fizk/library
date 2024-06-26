@@ -55,4 +55,9 @@ abstract class Form
 
         return $this->inputChain->getMessages();
     }
+
+    public function getData(): array
+    {
+        return $this->data;
+    }
 }
