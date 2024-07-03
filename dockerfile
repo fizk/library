@@ -1,4 +1,4 @@
-FROM php:8.3.7-cli-bookworm
+FROM php:8.3.8-cli-bookworm
 
 RUN apt-get update; \
     apt-get upgrade; \
