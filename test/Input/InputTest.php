@@ -31,7 +31,7 @@ class InputTest extends TestCase
         $isValid = $input->isValid($value);
 
         // THEN
-        $expected = 'Hundur@Hundur.is';
+        $expected = 'Hundur@hundur.is';
         $actual = $input->getValue();
 
         $this->assertTrue($isValid);

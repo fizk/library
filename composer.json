@@ -8,12 +8,12 @@
         }
     ],
     "require": {
-        "laminas/laminas-filter": "^2.37",
-        "laminas/laminas-validator": "2.61.x-dev",
-        "laminas/laminas-diactoros": "3.4.x-dev",
-        "psr/container": "1.x-dev",
-        "psr/http-message": "^2.0@dev",
-        "psr/event-dispatcher": "^1.0@dev"
+        "psr/container": "^2.0",
+        "psr/http-message": "^2.0",
+        "psr/event-dispatcher": "^1.0",
+        "laminas/laminas-filter": "^2.5",
+        "laminas/laminas-validator": "^2.5",
+        "laminas/laminas-diactoros": "^3.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.3@dev",
