@@ -13,7 +13,8 @@
         "psr/event-dispatcher": "^1.0",
         "laminas/laminas-filter": "^2.5",
         "laminas/laminas-validator": "^2.5",
-        "laminas/laminas-diactoros": "^3.5"
+        "laminas/laminas-diactoros": "^3.5",
+        "laminas/laminas-httphandlerrunner": "2.12.x-dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.3@dev",
@@ -21,6 +22,9 @@
     },
     "minimum-stability": "dev",
     "autoload": {
+        "files": [
+            "src/application.php"
+        ],
         "psr-4": {
             "Library\\": ["src/"]
         }

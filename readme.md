@@ -61,7 +61,29 @@ catch (Throwable $throwable) {
     $emitter->emit($response);
     exit;
 }
+```
 
+or you can use the `run` function
+```php
+chdir(dirname(__DIR__));
+include __DIR__ . '/../vendor/autoload.php';
+
+use Library\Container\Container;
+use Library\Router\Router;
+use function Library\run;
+
+set_error_handler(function ($severity, $message, $file, $line)
+{
+    if (!(error_reporting() & $severity)) {
+        return;
+    }
+    throw new \ErrorException($message, 0, $severity, $file, $line);
+});
+
+$serviceManager = new Container( require './config/service.php');
+$router = new Router(require './config/router.php');
+
+run($serviceManager, $router);
 ```
 
 composer.json

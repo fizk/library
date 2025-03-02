@@ -1,0 +1,7 @@
+services:
+  dev:
+    container_name: lib_dev
+    build: 
+      context: .
+    volumes:
+      - .:/var/app
