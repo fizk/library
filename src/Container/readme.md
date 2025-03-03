@@ -1,4 +1,4 @@
-## Container
+# Container
 Simple `ServiceManager / Dependency Injector / Container` that implements the [PSR-11: Container interface](https://www.php-fig.org/psr/psr-11/).
 
 ```php
@@ -36,11 +36,11 @@ $config = [
 ];
 ```
 
-The `group-*` names are for convenience. They are there to make it simpler to group different type of services like: controllers, services/repositories, utility objects etc... They can be what-ever string. They will be discarded once the `Container` object is created, therefor; two groups can not contain the same `key`, the first one will be overwritten with the second one.
+The `group-*` names are for convenience. They are there to make it simpler to group different type of services like: controllers, services/repositories, utility objects etc... They can be _what-ever_ string. They will be discarded once the `Container` object is created, therefor; two groups can not contain the same `key`, the first one will be overwritten with the second one.
 
-Each `key` needs to return a `callable`.
+Each `key` needs to return a [`callable`](https://www.php.net/manual/en/language.types.callable.php).
 
-When the `callable`is called, it will be passed a reference to the same Container instance (`$this`) allowing each callable to query other services within the configuration file.
+When the `callable` is called, it will be passed a reference to the same Container instance (`$this`) allowing each callable to query other services within the configuration file.
 
 
 ```php
