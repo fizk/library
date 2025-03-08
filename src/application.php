@@ -7,11 +7,11 @@ use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Library\Http\Response\ServerErrorResponse;
 use Library\Http\ServerFilter\ContentTypeFilter;
-use Library\Router\Router;
+use Library\Router\RouterInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-function run (ContainerInterface $serviceManager, Router $router, ?ServerRequestInterface $request = null): void {
+function run (ContainerInterface $serviceManager, RouterInterface $router, ?ServerRequestInterface $request = null): void {
     $emitter = new SapiEmitter();
 
     try {

@@ -4,7 +4,7 @@ namespace Library\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-class Router
+class Router implements RouterInterface
 {
     private array $patterns;
 
@@ -17,7 +17,7 @@ class Router
         );
     }
 
-    public function add(string $regex, string $value): self
+    public function add(string $regex, mixed $value): self
     {
         $this->patterns[$regex] = $value;
         return $this;

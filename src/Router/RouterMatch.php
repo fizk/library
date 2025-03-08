@@ -2,13 +2,13 @@
 
 namespace Library\Router;
 
-class RouterMatch
+class RouterMatch implements RouterMatchInterface
 {
-    public function __construct(private string $value, private array $attributes, private string $pattern)
+    public function __construct(private mixed $value, private array $attributes, private string $pattern)
     {
     }
 
-    public function getValue(): string
+    public function getValue(): mixed
     {
         return $this->value;
     }

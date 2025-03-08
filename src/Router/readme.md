@@ -23,7 +23,7 @@ $match->getPattern(); // returns: '/^\/items\/(?<id>[0-9]+)$/'
 ```
 
 ## How it works.
-This is just a fancy wrapper around a `forEach` loop that ckecks the key of an array (which is a regular expression) agains the **Url Path** provided through the `ServerRequest`. If there is a match, it will return the value that this array-key points to, wrapped in a `RouterMatch` object. It there is no match; a `null` will be returned.
+This is just a fancy wrapper around a `forEach` loop that checks the key of an array (which is a regular expression) against the **Url Path** provided through the `ServerRequest`. If there is a match, it will return the value that this array-key points to, wrapped in a `RouterMatch` object. It there is no match; a `null` will be returned.
 
 ## What it returns.
 If there is a match, a `RouterMatch` object will be returned.
@@ -61,7 +61,7 @@ $config = [
 $router = new Router($config);
 ```
 
-The `group-*` keys are just for convenience, just so paths can be grouped. They will be removed once the `Router` object is configured. This means that two groups can not share a key; the second one will override the first one.
+The `group-*` keys are just for convenience, just so paths can be grouped. They will be removed once the `Router` object is configured. This means that two groups can not share a key; the second one will override the first one. Keys can be any string.
 
 Another way is to use the `public function add(string $regex, string $value): self` method:
 
