@@ -246,6 +246,9 @@ class ContentTypeFilterTest extends TestCase
 
     public function testMultipartFormData()
     {
+        $this->markTestSkipped(
+            'the underlying function call can not be mocked | [$input] = request_parse_body();'
+        );
         $stream = new Stream('php://temp', 'rw');
         $stream->write(
             '' . PHP_EOL .

@@ -4,6 +4,7 @@ namespace Library\Http\ServerFilter;
 
 use Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 use UnexpectedValueException;
 
 class ContentTypeFilter implements FilterServerRequestInterface
@@ -86,66 +87,14 @@ class ContentTypeFilter implements FilterServerRequestInterface
 
     private function deserializeMultipartForm(ServerRequestInterface $request): mixed
     {
-        $contentType = $request->getHeader('content-type')[0];
-        $bodyAsText = trim((string) $request->getBody());
+        try {
+            [$input] = request_parse_body();
 
-        if (empty($bodyAsText)) {
-            return null;
+            return self::ARRAY === $this->format
+                ? $input
+                : (object) $input;
+        } catch (Throwable $exception) {
+            throw new UnexpectedValueException($exception->getMessage(), 0, $exception);
         }
-
-        if (!preg_match('/boundary=(.*)$/is', $contentType, $boundaries)) {
-            return null;
-        }
-
-        $bodyParts = preg_split('/\\R?-+' . preg_quote($boundaries[1], '/') . '/s', $bodyAsText);
-
-        return array_reduce($bodyParts, function ($previous, $bodyPart) {
-            if (empty($bodyPart)) {
-                return $previous;
-            }
-
-            @[$headers, $value] = preg_split('/\\R\\R/', $bodyPart, 2);
-            $headers = $this->parseHeaders($headers);
-            if (!isset($headers['content-disposition']['name'])) {
-                return $previous;
-            }
-            $previous[$headers['content-disposition']['name']] = $value;
-            return $previous;
-        }, []);
-    }
-
-    /**
-     *
-     * @see https://github.com/notihnio/php-multipart-form-data-parser/blob/master/src/MultipartFormDataParser.php
-     */
-    private function parseHeaders(string $headerContent): array
-    {
-        $headers = [];
-        $headerParts = preg_split('/\\R/s', $headerContent, -1, PREG_SPLIT_NO_EMPTY);
-        foreach ($headerParts as $headerPart) {
-            if (!str_contains($headerPart, ':')) {
-                continue;
-            }
-            [$headerName, $headerValue] = explode(':', $headerPart, 2);
-            $headerName = strtolower(trim($headerName));
-            $headerValue = trim($headerValue);
-            if (!str_contains($headerValue, ';')) {
-                $headers[$headerName] = $headerValue;
-            } else {
-                $headers[$headerName] = [];
-                foreach (explode(';', $headerValue) as $part) {
-                    $part = trim($part);
-                    if (!str_contains($part, '=')) {
-                        $headers[$headerName][] = $part;
-                    } else {
-                        [$name, $value] = explode('=', $part, 2);
-                        $name = strtolower(trim($name));
-                        $value = trim(trim($value), '"');
-                        $headers[$headerName][$name] = $value;
-                    }
-                }
-            }
-        }
-        return $headers;
     }
 }

@@ -21,7 +21,7 @@ class UUID4Validator implements ValidatorInterface
      * @return bool
      * @throws Exception\RuntimeException If validation of $value is impossible.
      */
-    public function isValid($value)
+    public function isValid($value): bool
     {
         if (preg_match('/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}/', (string) $value, $m)) {
             return true;

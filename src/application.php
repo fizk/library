@@ -11,7 +11,8 @@ use Library\Router\RouterInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-function run (ContainerInterface $serviceManager, RouterInterface $router, ?ServerRequestInterface $request = null): void {
+function run(ContainerInterface $serviceManager, RouterInterface $router, ?ServerRequestInterface $request = null): void
+{
     $emitter = new SapiEmitter();
 
     try {
@@ -23,7 +24,7 @@ function run (ContainerInterface $serviceManager, RouterInterface $router, ?Serv
             $_FILES,
             new ContentTypeFilter(ContentTypeFilter::ARRAY),
         );
-    
+
         $routeMatch = $router->match($request);
         if (!$routeMatch) {
             $emitter->emit(new EmptyResponse(406));
@@ -31,19 +32,18 @@ function run (ContainerInterface $serviceManager, RouterInterface $router, ?Serv
         }
         $controllerName = $routeMatch->getValue();
         $attributes = $routeMatch->getAttributes();
-    
-        foreach($attributes as $key => $value) {
+
+        foreach ($attributes as $key => $value) {
             $request = $request->withAttribute($key, $value);
         }
-    
+
         /** @var \Psr\Http\Server\RequestHandlerInterface */
         $controller = $serviceManager->get($controllerName);
         $response = $controller->handle($request);
-    
+
         $emitter->emit($response);
         exit;
-    }
-    catch (\Throwable $throwable) {
+    } catch (\Throwable $throwable) {
         $response = new ServerErrorResponse($throwable);
         $emitter->emit($response);
         exit;

@@ -1,5 +1,7 @@
 <?php
 
+namespace Library;
+
 use Laminas\Diactoros\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,9 +27,9 @@ class ApplicationTest extends TestCase
             null,
             '1.1'
         );
-        $serviceManager = new Container( []);
+        $serviceManager = new Container([]);
         $router = new Router([]);
-        
+
         run($serviceManager, $router, $request);
 
         $this->assertTrue(false);

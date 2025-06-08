@@ -1,7 +1,27 @@
 services:
   dev:
     container_name: lib_dev
+    ports:
+      - 9090:8080
     build: 
       context: .
     volumes:
       - .:/var/app
+  
+  run:
+    container_name: lib_dev-run
+    ports:
+      - 9090:8080
+    build: 
+      context: .
+    volumes:
+      - .:/var/app
+    command: ["php", "-S", "0.0.0.0:8080", "-t", "/var/app/test"]
+  
+  test:
+    container_name: lib_dev-test
+    build: 
+      context: .
+    volumes:
+      - .:/var/app
+    command: ["composer", "test"]
