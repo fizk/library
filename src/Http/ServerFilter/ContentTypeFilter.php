@@ -88,7 +88,11 @@ class ContentTypeFilter implements FilterServerRequestInterface
     private function deserializeMultipartForm(ServerRequestInterface $request): mixed
     {
         try {
-            [$input] = request_parse_body();
+            if (strtolower($request->getMethod()) === 'post') {
+                $input = $request->getParsedBody();
+            } else {
+                [$input] = request_parse_body();
+            }
 
             return self::ARRAY === $this->format
                 ? $input
